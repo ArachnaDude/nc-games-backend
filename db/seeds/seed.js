@@ -1,4 +1,5 @@
 const db = require("../connection");
+const { formatCategoryData } = require("../utils");
 
 const seed = async (data) => {
   const { categoryData, commentData, reviewData, userData } = data;
@@ -37,7 +38,10 @@ const seed = async (data) => {
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     body TEXT NOT NULL
   );`);
-  // 3. insert data
+  // 3. format data
+  formatCategoryData(categoryData);
+
+  // 4. insert data
 };
 
 module.exports = seed;
