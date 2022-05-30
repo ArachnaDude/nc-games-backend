@@ -1,5 +1,11 @@
 const db = require("../connection");
-const { formatCategoryData } = require("../utils");
+const format = require("pg-format");
+const {
+  formatCategoryData,
+  formatUserData,
+  formatReviewData,
+  formatCommentData,
+} = require("../utils");
 
 const seed = async (data) => {
   const { categoryData, commentData, reviewData, userData } = data;
@@ -38,10 +44,35 @@ const seed = async (data) => {
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     body TEXT NOT NULL
   );`);
+
   // 3. format data
-  formatCategoryData(categoryData);
+  const categoryArray = formatCategoryData(categoryData);
+  const userArray = formatUserData(userData);
+  const reviewArray = formatReviewData(reviewData);
+  const commentArray = formatCommentData(commentData);
+
+  const categorySql = format(
+    `INSERT INTO categories (slug, description) VALUES %L;`,
+    categoryArray
+  );
+  const userSql = format(
+    `INSERT INTO users (username, avatar_url, name) VALUES %L;`,
+    userArray
+  );
+  const reviewSql = format(
+    `INSERT INTO reviews (title, review_body, designer, review_img_url, votes, category, owner, created_at) VALUES %L;`,
+    reviewArray
+  );
+  const commentSql = format(
+    `INSERT INTO comments (author, review_id, votes, created_at, body) VALUES %L;`,
+    commentArray
+  );
 
   // 4. insert data
+  await db.query(categorySql);
+  await db.query(userSql);
+  await db.query(reviewSql);
+  await db.query(commentSql);
 };
 
 module.exports = seed;
