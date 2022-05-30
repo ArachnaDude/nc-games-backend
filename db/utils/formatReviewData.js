@@ -13,3 +13,18 @@
 ]
   
   */
+
+exports.formatReviewData = (reviewData) => {
+  return reviewData.map((review) => {
+    return [
+      review.title,
+      review.review_body,
+      review.designer,
+      review.review_img_url,
+      review.votes,
+      review.category,
+      review.owner,
+      review.created_at,
+    ];
+  });
+};
