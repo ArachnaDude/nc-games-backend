@@ -46,11 +46,13 @@ const seed = async (data) => {
   );`);
 
   // 3. format data
+  // create an array of arrays for insertion into database
   const categoryArray = formatCategoryData(categoryData);
   const userArray = formatUserData(userData);
   const reviewArray = formatReviewData(reviewData);
   const commentArray = formatCommentData(commentData);
 
+  // create pg-formated queries for data insertion
   const categorySql = format(
     `INSERT INTO categories (slug, description) VALUES %L;`,
     categoryArray
