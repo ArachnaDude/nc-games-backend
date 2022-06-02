@@ -31,7 +31,7 @@ describe("GET /api/categories", () => {
   });
 });
 describe.only("GET /api/reviews/:review_id", () => {
-  test.only("status: 200, responds with an object of the specfied review", () => {
+  test("status: 200, responds with an object of the specfied review", () => {
     return request(app)
       .get("/api/reviews/2")
       .expect(200)
@@ -57,6 +57,14 @@ describe.only("GET /api/reviews/:review_id", () => {
       .expect(400)
       .then((result) => {
         expect(result.body.message).toBe("Bad request");
+      });
+  });
+  test.only("status: 404, responds with not found when passed a valid but unused id", () => {
+    return request(app)
+      .get("/api/reviews/999")
+      .expect(404)
+      .then((result) => {
+        expect(result.body.message).toBe("Review 999 not found");
       });
   });
 });
