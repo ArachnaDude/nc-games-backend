@@ -7,6 +7,7 @@ const app = express();
 
 // controller imports
 const { getCategories, getReviewById } = require("./controllers");
+const { handlePsqlErrors, handleCustomErrors } = require("./errors");
 
 // required to enable CORS for frontend use
 app.use(cors());
@@ -19,5 +20,9 @@ app.get("/api/categories", getCategories);
 
 // responds with a single review object
 app.get("/api/reviews/:review_id", getReviewById);
+
+app.use(handlePsqlErrors);
+
+app.use(handleCustomErrors);
 
 module.exports = app;
