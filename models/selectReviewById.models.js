@@ -16,7 +16,13 @@ WHERE comments.review_id=$1 GROUP BY reviews.review_id;`,
       [review_id]
     )
     .then((result) => {
-      console.log(result);
-      return result.rows[0];
+      if (!result.rowCount) {
+        return Promise.reject({
+          status: 404,
+          message: `Review ${review_id} not found`,
+        });
+      } else {
+        return result.rows[0];
+      }
     });
 };
