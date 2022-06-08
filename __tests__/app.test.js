@@ -29,8 +29,16 @@ describe("GET /api/categories", () => {
         });
       });
   });
+  test.skip("status: 405, responds with method not allowed when passed an invalid method", () => {
+    return request(app)
+      .delete("/api/categories")
+      .expect(405)
+      .then((result) => {
+        expect(result.body.message).toBe("Method not allowed");
+      });
+  });
 });
-describe.only("GET /api/reviews/:review_id", () => {
+describe("GET /api/reviews/:review_id", () => {
   test("status: 200, responds with an object of the specfied review", () => {
     return request(app)
       .get("/api/reviews/2")
@@ -59,7 +67,7 @@ describe.only("GET /api/reviews/:review_id", () => {
         expect(result.body.message).toBe("Bad request");
       });
   });
-  test.only("status: 404, responds with not found when passed a valid but unused id", () => {
+  test("status: 404, responds with not found when passed a valid but unused id", () => {
     return request(app)
       .get("/api/reviews/999")
       .expect(404)
