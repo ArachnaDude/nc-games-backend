@@ -1,9 +1,12 @@
 const express = require("express");
 const { getCategories } = require("../controllers");
+const { handle405 } = require("../errors");
 const categoriesRouter = express.Router();
 
 // we're alredy in /api (due to apiRouter) /categories (see apiRouter),
 // so the path is just /
-categoriesRouter.route("/").get(getCategories);
+// .all() matches any method not explicitly specified
+// and passes it to handle405
+categoriesRouter.route("/").get(getCategories).all(handle405);
 
 module.exports = categoriesRouter;
