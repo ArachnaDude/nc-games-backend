@@ -1,6 +1,8 @@
 exports.handle404 = (req, res, next) => {};
 
-exports.handle405 = (req, res, next) => {};
+exports.handle405 = (req, res, next) => {
+  res.status(405).send({ message: "Method not allowed" });
+};
 
 exports.handlePsqlErrors = (err, req, res, next) => {
   console.log(err, "psql error");
