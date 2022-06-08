@@ -29,7 +29,7 @@ describe("GET /api/categories", () => {
         });
       });
   });
-  test.skip("status: 405, responds with method not allowed when passed an invalid method", () => {
+  test("status: 405, responds with method not allowed when passed an invalid method", () => {
     return request(app)
       .delete("/api/categories")
       .expect(405)
