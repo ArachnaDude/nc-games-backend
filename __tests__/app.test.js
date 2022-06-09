@@ -76,7 +76,7 @@ describe("GET /api/reviews/:review_id", () => {
       });
   });
 });
-describe.only("PATCH /api/reviews/:review_id", () => {
+describe("PATCH /api/reviews/:review_id", () => {
   test("status: 200, accepts an object updating votes with a positive integer, and returns updated review", () => {
     return request(app)
       .patch("/api/reviews/11")
@@ -93,6 +93,39 @@ describe.only("PATCH /api/reviews/:review_id", () => {
       .expect(200)
       .then((result) => {
         expect(result.body.review.votes).toBe(6);
+      });
+  });
+});
+describe.only("GET /api/reviews", () => {
+  test("status: 200, returns an array of review objects", () => {
+    return request(app)
+      .get("/api/reviews")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.reviews).toBeInstanceOf(Array);
+        expect(result.body.reviews).toHaveLength(13);
+        result.body.reviews.forEach((review) => {
+          expect(review).toMatchObject({
+            owner: expect.any(String),
+            title: expect.any(String),
+            review_id: expect.any(Number),
+            category: expect.any(String),
+            review_img_url: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            comment_count: expect.any(String),
+          });
+        });
+      });
+  });
+  test("status: 200, array is sorted by created_at in descending order by default", () => {
+    return request(app)
+      .get("/api/reviews")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.reviews).toBeSortedBy("created_at", {
+          descending: true,
+        });
       });
   });
 });
