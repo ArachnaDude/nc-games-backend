@@ -20,15 +20,36 @@
     "exampleResponse": {
       "reviews": [
         {
-          "title": "One Night Ultimate Werewolf",
-          "designer": "Akihisa Okui",
-          "owner": "happyamy2016",
-          "review_img_url": "https://images.pexels.com/photos/5350049/pexels-photo-5350049.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-          "category": "hidden-roles",
-          "created_at": 1610964101251,
-          "votes": 5
+          "owner": "String",
+          "title": "String",
+          "review_id": "Number",
+          "review_body": "String",
+          "designer": "String",
+          "review_img_url": "String",
+          "category": "String",
+          "created_at": "String",
+          "votes": "Number",
+          "comment_count": "String"
         }
       ]
+    }
+  },
+  "GET /api/reviews/:review_id": {
+    "description": "serves a specific review object",
+    "queries": [],
+    "exampleResponse": {
+      "review": {
+        "owner": "String",
+        "title": "String",
+        "review_id": "Number",
+        "review_body": "String",
+        "designer": "String",
+        "review_img_url": "String",
+        "category": "String",
+        "created_at": "String",
+        "votes": "Number",
+        "comment_count": "String"
+      }
     }
   }
 }
