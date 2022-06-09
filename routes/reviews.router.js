@@ -1,5 +1,5 @@
 const express = require("express");
-const { getReviewById } = require("../controllers");
+const { getReviewById, patchReviewById } = require("../controllers");
 const { handle405 } = require("../errors");
 const reviewsRouter = express.Router();
 
@@ -7,6 +7,10 @@ const reviewsRouter = express.Router();
 reviewsRouter.route("/");
 
 // controls all methods assigned to /api/reviews/:review_id
-reviewsRouter.route("/:review_id").get(getReviewById).all(handle405);
+reviewsRouter
+  .route("/:review_id")
+  .get(getReviewById)
+  .patch(patchReviewById)
+  .all(handle405);
 
 module.exports = reviewsRouter;
