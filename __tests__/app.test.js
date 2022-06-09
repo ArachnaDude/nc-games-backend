@@ -76,3 +76,23 @@ describe("GET /api/reviews/:review_id", () => {
       });
   });
 });
+describe.only("PATCH /api/reviews/:review_id", () => {
+  test("status: 200, accepts an object updating votes with a positive integer, and returns updated review", () => {
+    return request(app)
+      .patch("/api/reviews/11")
+      .send({ inc_votes: 1 })
+      .expect(200)
+      .then((result) => {
+        expect(result.body.review.votes).toBe(9);
+      });
+  });
+  test("status: 200, accepts an object updating votes with a negative integer, and returns updated review", () => {
+    return request(app)
+      .patch("/api/reviews/11")
+      .send({ inc_votes: -2 })
+      .expect(200)
+      .then((result) => {
+        expect(result.body.review.votes).toBe(6);
+      });
+  });
+});
