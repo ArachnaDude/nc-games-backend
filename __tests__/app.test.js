@@ -128,4 +128,24 @@ describe.only("GET /api/reviews", () => {
         });
       });
   });
+  test("status: 200, accepts query 'category' which filters reviews by category", () => {
+    return request(app)
+      .get("/api/reviews?category=dexterity")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.reviews).toHaveLength(1);
+        result.body.reviews.forEach((review) => {
+          expect(review).toMatchObject({
+            owner: expect.any(String),
+            title: expect.any(String),
+            review_id: expect.any(Number),
+            category: "dexterity",
+            review_img_url: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            comment_count: expect.any(String),
+          });
+        });
+      });
+  });
 });
