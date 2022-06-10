@@ -1,7 +1,7 @@
 const format = require("pg-format");
 const db = require("../db/connection");
 
-exports.selectReviews = (category, sort_by = "created_at") => {
+exports.selectReviews = (category, sort_by = "created_at", order = "DESC") => {
   const validColumns = [
     "owner",
     "title",
@@ -29,8 +29,8 @@ FROM reviews LEFT JOIN comments ON reviews.review_id = comments.review_id`;
   }
 
   queryStr += `
-  GROUP BY reviews.review_id ORDER BY ${sort_by} DESC;`;
-  // console.log(queryStr);
+  GROUP BY reviews.review_id ORDER BY ${sort_by} ${order};`;
+  console.log(queryStr);
   return db.query(queryStr).then((result) => {
     return result.rows;
   });
