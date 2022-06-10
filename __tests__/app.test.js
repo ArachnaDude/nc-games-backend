@@ -130,7 +130,7 @@ describe.only("GET /api/reviews", () => {
   });
   test("status: 200, accepts query 'category' which filters reviews by category", () => {
     return request(app)
-      .get("/api/reviews?category=children%27s%20games")
+      .get("/api/reviews?category=euro%20game")
       .expect(200)
       .then((result) => {
         expect(result.body.reviews).toHaveLength(1);
