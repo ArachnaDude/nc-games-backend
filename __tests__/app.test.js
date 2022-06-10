@@ -118,7 +118,7 @@ describe.only("GET /api/reviews", () => {
         });
       });
   });
-  test("status: 200, array is sorted by created_at in descending order by default", () => {
+  test("status: 200, array is sorted by 'created_at' in descending order by default", () => {
     return request(app)
       .get("/api/reviews")
       .expect(200)
@@ -133,6 +133,7 @@ describe.only("GET /api/reviews", () => {
       .get("/api/reviews?category=euro%20game")
       .expect(200)
       .then((result) => {
+        expect(result.body.reviews).toBeInstanceOf(Array);
         expect(result.body.reviews).toHaveLength(1);
         result.body.reviews.forEach((review) => {
           expect(review).toMatchObject({
@@ -145,6 +146,16 @@ describe.only("GET /api/reviews", () => {
             votes: expect.any(Number),
             comment_count: expect.any(String),
           });
+        });
+      });
+  });
+  test("status: 200, accepts query 'sort_by' which sorts by any valid column", () => {
+    return request(app)
+      .get("/api/reviews?sort_by=category")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.reviews).toBeSortedBy("category", {
+          descending: true,
         });
       });
   });
