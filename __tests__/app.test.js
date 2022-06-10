@@ -159,4 +159,14 @@ describe.only("GET /api/reviews", () => {
         });
       });
   });
+  test("status: 200, accepts query 'order' which specifies asc/desc", () => {
+    return request(app)
+      .get("/api/reviews?order=asc")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.reviews).toBeSortedBy("created_at", {
+          descending: false,
+        });
+      });
+  });
 });
