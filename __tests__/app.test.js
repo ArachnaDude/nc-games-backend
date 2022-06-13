@@ -204,7 +204,7 @@ describe("GET /api/reviews", () => {
       });
   });
 });
-describe.only("GET /api/reviews/:review_id/comments", () => {
+describe("GET /api/reviews/:review_id/comments", () => {
   test("status: 200, responds with an array of comment objects for a given review_id", () => {
     return request(app)
       .get("/api/reviews/3/comments")
@@ -257,6 +257,24 @@ describe.only("GET /api/reviews/:review_id/comments", () => {
         expect(result.body.comments).toBeInstanceOf(Array);
         expect(result.body.comments).toHaveLength(0);
         expect(result.body.comments).toEqual([]);
+      });
+  });
+});
+describe.only("POST /api/reviews/:review_id/comments", () => {
+  test("status: 200, accepts a body and returns a comment object", () => {
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send({ username: "dav3rid", body: "test_comment" })
+      .expect(201)
+      .then((result) => {
+        expect(result.body.comment).toBeInstanceOf(Object);
+        expect(result.body.comment).toMatchObject({
+          comment_id: 7,
+          votes: 0,
+          created_at: expect.any(String),
+          author: "dav3rid",
+          body: "test_comment",
+        });
       });
   });
 });
