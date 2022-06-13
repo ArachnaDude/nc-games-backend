@@ -13,8 +13,14 @@ exports.selectReviews = (category, sort_by = "created_at", order = "DESC") => {
     "comment_count",
   ];
 
-  // if (validColumns.includes(sort_by)) {
-  // }
+  const validOrders = ["ASC", "DESC"];
+
+  if (
+    !validColumns.includes(sort_by) ||
+    !validOrders.includes(order.toUpperCase())
+  ) {
+    return Promise.reject({ status: 400, message: "Bad request" });
+  }
 
   let queryStr = `SELECT reviews.*,
 COUNT (comments.comment_id) AS "comment_count"
@@ -30,8 +36,23 @@ FROM reviews LEFT JOIN comments ON reviews.review_id = comments.review_id`;
 
   queryStr += `
   GROUP BY reviews.review_id ORDER BY ${sort_by} ${order};`;
-  console.log(queryStr);
-  return db.query(queryStr).then((result) => {
-    return result.rows;
+
+  return db.query(queryStr).then((reviews) => {
+    if (reviews.rowCount) {
+      return reviews.rows;
+    } else {
+      return db
+        .query(`SELECT * FROM categories WHERE slug = $1`, [category])
+        .then((result) => {
+          if (result.rowCount) {
+            return reviews.rows;
+          } else {
+            return Promise.reject({
+              status: 404,
+              message: "category not found",
+            });
+          }
+        });
+    }
   });
 };
