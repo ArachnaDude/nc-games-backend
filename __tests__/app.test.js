@@ -286,13 +286,22 @@ describe("POST /api/reviews/:review_id/comments", () => {
         expect(result.body.message).toBe("Bad request");
       });
   });
-  test.only("status: 404, returns 'not found' if passed a valid unused review_id", () => {
+  test("status: 404, returns 'not found' if passed a valid unused review_id", () => {
     return request(app)
       .post("/api/reviews/9999/comments")
       .send({ username: "dav3rid", body: "I'm making a comment" })
       .expect(404)
       .then((result) => {
         expect(result.body.message).toBe("Not found");
+      });
+  });
+  test.only("status: 400, returns 'bad request' when missing a required property", () => {
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send({ username: "dav3rid" })
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
       });
   });
 });
