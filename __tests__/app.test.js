@@ -96,7 +96,7 @@ describe("PATCH /api/reviews/:review_id", () => {
       });
   });
 });
-describe.only("GET /api/reviews", () => {
+describe("GET /api/reviews", () => {
   test("status: 200, returns an array of review objects", () => {
     return request(app)
       .get("/api/reviews")
@@ -149,6 +149,24 @@ describe.only("GET /api/reviews", () => {
         });
       });
   });
+  test("status: 200, returns an empty array when filtered by a valid category with no reviews", () => {
+    return request(app)
+      .get("/api/reviews?category=children%27s%20games")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.reviews).toBeInstanceOf(Array);
+        expect(result.body.reviews).toHaveLength(0);
+        expect(result.body.reviews).toEqual([]);
+      });
+  });
+  test("status: 404, returns 'not found' when filtering by non-existent category", () => {
+    return request(app)
+      .get("/api/reviews?category=splango_glarb")
+      .expect(404)
+      .then((result) => {
+        expect(result.body.message).toBe("category not found");
+      });
+  });
   test("status: 200, accepts query 'sort_by' which sorts by any valid column", () => {
     return request(app)
       .get("/api/reviews?sort_by=category")
@@ -159,6 +177,14 @@ describe.only("GET /api/reviews", () => {
         });
       });
   });
+  test("status: 400, returns 'bad request' if attempting to sort by an invalid column", () => {
+    return request(app)
+      .get("/api/reviews?sort_by=karma_chameleon")
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
+      });
+  });
   test("status: 200, accepts query 'order' which specifies asc/desc", () => {
     return request(app)
       .get("/api/reviews?order=asc")
@@ -167,6 +193,14 @@ describe.only("GET /api/reviews", () => {
         expect(result.body.reviews).toBeSortedBy("created_at", {
           descending: false,
         });
+      });
+  });
+  test("status: 400, returns 'bad request' if attempting to order by an invalid direction", () => {
+    return request(app)
+      .get("/api/reviews?order=sideways")
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
       });
   });
 });
