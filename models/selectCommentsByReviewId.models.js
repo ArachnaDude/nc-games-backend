@@ -12,7 +12,7 @@ exports.selectCommentsByReviewId = (
     !validColumns.includes(sort_by) ||
     !validOrders.includes(order.toUpperCase())
   ) {
-    return Promise.reject({ status: 400, message: "bad request" });
+    return Promise.reject({ status: 400, message: "Bad request" });
   }
 
   return db
@@ -27,6 +27,21 @@ exports.selectCommentsByReviewId = (
       [review_id]
     )
     .then((result) => {
-      return result.rows;
+      if (result.rowCount) {
+        return result.rows;
+      } else {
+        return db
+          .query(`SELECT * FROM reviews WHERE review_id = $1;`, [review_id])
+          .then((answer) => {
+            if (answer.rowCount) {
+              return result.rows;
+            } else {
+              return Promise.reject({
+                status: 404,
+                message: "Article not found",
+              });
+            }
+          });
+      }
     });
 };
