@@ -9,7 +9,7 @@ exports.selectCommentsByReviewId = (
   const validOrders = ["ASC", "DESC"];
 
   if (
-    !validColumns.includes(sort_by) ||
+    !validColumns.includes(sort_by.toLowerCase()) ||
     !validOrders.includes(order.toUpperCase())
   ) {
     return Promise.reject({ status: 400, message: "Bad request" });
