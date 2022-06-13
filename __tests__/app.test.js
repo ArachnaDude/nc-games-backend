@@ -260,7 +260,7 @@ describe("GET /api/reviews/:review_id/comments", () => {
       });
   });
 });
-describe.only("POST /api/reviews/:review_id/comments", () => {
+describe("POST /api/reviews/:review_id/comments", () => {
   test("status: 200, accepts a body and returns a comment object", () => {
     return request(app)
       .post("/api/reviews/1/comments")
@@ -275,6 +275,24 @@ describe.only("POST /api/reviews/:review_id/comments", () => {
           author: "dav3rid",
           body: "test_comment",
         });
+      });
+  });
+  test("status: 400, returns 'bad request' if passed an invalid review_id", () => {
+    return request(app)
+      .post("/api/reviews/ducks/comments")
+      .send({ username: "dav3rid", body: "comment goes here" })
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
+      });
+  });
+  test.only("status: 404, returns 'not found' if passed a valid unused review_id", () => {
+    return request(app)
+      .post("/api/reviews/9999/comments")
+      .send({ username: "dav3rid", body: "I'm making a comment" })
+      .expect(404)
+      .then((result) => {
+        expect(result.body.message).toBe("Not found");
       });
   });
 });
