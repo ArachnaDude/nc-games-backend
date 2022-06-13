@@ -295,13 +295,22 @@ describe("POST /api/reviews/:review_id/comments", () => {
         expect(result.body.message).toBe("Not found");
       });
   });
-  test.only("status: 400, returns 'bad request' when missing a required property", () => {
+  test("status: 400, returns 'bad request' when missing a required property", () => {
     return request(app)
       .post("/api/reviews/1/comments")
       .send({ username: "dav3rid" })
       .expect(400)
       .then((result) => {
         expect(result.body.message).toBe("Bad request");
+      });
+  });
+  test("status: 404, returns 'not found' when username does not exist", () => {
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send({ username: "barry_trotter", body: "this comment won't work" })
+      .expect(404)
+      .then((result) => {
+        expect(result.body.message).toBe("Not found");
       });
   });
 });
