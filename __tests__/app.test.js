@@ -233,4 +233,30 @@ describe.only("GET /api/reviews/:review_id/comments", () => {
         });
       });
   });
+  test("status: 400, responds with 'bad request' if passed an invalid review_id", () => {
+    return request(app)
+      .get("/api/reviews/seven/comments")
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
+      });
+  });
+  test("status: 404, responds with 'not found' if passed a valid unused review_id", () => {
+    return request(app)
+      .get("/api/reviews/999/comments")
+      .expect(404)
+      .then((result) => {
+        expect(result.body.message).toBe("Article not found");
+      });
+  });
+  test("status: 200, responds with an empty array if passed a valid review_id with no comments", () => {
+    return request(app)
+      .get("/api/reviews/1/comments")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.comments).toBeInstanceOf(Array);
+        expect(result.body.comments).toHaveLength(0);
+        expect(result.body.comments).toEqual([]);
+      });
+  });
 });
