@@ -7,7 +7,7 @@ exports.handle405 = (req, res, next) => {
 exports.handlePsqlErrors = (err, req, res, next) => {
   console.log(err, "psql errors");
   const { code } = err;
-  if (code === "22P02") {
+  if (code === "22P02" || "23502") {
     res.status(400).send({ message: "Bad request" });
   }
   if (code === "23503") {
