@@ -223,5 +223,14 @@ describe.only("GET /api/reviews/:review_id/comments", () => {
         });
       });
   });
-  test("status: 200, array of comment objects is sorted by 'created_at'");
+  test("status: 200, array of comments is sorted by 'created_at' in descending order by default", () => {
+    return request(app)
+      .get("/api/reviews/3/comments")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.comments).toBeSortedBy("created_at", {
+          descending: true,
+        });
+      });
+  });
 });
