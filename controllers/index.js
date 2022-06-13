@@ -5,6 +5,9 @@ const { getReviews } = require("./getReviews.controllers");
 const {
   getCommentsByReviewId,
 } = require("./getCommentsByReviewId.controllers");
+const {
+  postCommentByReviewId,
+} = require("./postCommentByReviewId.controllers");
 
 module.exports = {
   getCategories,
@@ -12,4 +15,5 @@ module.exports = {
   patchReviewById,
   getReviews,
   getCommentsByReviewId,
+  postCommentByReviewId,
 };
