@@ -10,6 +10,8 @@ const {
 } = require("./postCommentByReviewId.controllers");
 const { deleteCommentById } = require("./deleteCommentById.controllers");
 const { getEndpoints } = require("./getEndpoints.controllers");
+const { getUsers } = require("./getUsers.controllers");
+const { getUserByUsername } = require("./getUserByUsername.controllers");
 
 module.exports = {
   getCategories,
@@ -20,4 +22,6 @@ module.exports = {
   postCommentByReviewId,
   deleteCommentById,
   getEndpoints,
+  getUsers,
+  getUserByUsername,
 };
