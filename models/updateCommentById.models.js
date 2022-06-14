@@ -8,6 +8,9 @@ exports.updateCommentById = (comment_id, inc_votes) => {
       [inc_votes, comment_id]
     )
     .then((result) => {
+      if (!result.rowCount) {
+        return Promise.reject({ status: 404, message: "comment not found" });
+      }
       return result.rows[0];
     });
 };
