@@ -1,6 +1,6 @@
 const db = require("../db/connection");
 
-exports.updateCommentById = (comment_id, inc_votes) => {
+exports.updateCommentById = (comment_id, inc_votes = 0) => {
   console.log(comment_id, inc_votes);
   return db
     .query(
