@@ -6,7 +6,6 @@ const express = require("express");
 const app = express();
 
 // controller imports
-const { getCategories, getReviewById } = require("./controllers");
 const { handlePsqlErrors, handleCustomErrors } = require("./errors");
 const apiRouter = require("./routes/api.router");
 
@@ -18,17 +17,6 @@ app.use(express.json());
 
 // middleware that funnels anything that starts with /api into it
 app.use("/api", apiRouter);
-
-/*
-pre-router code
-
-// responds with an array of categories
-app.get("/api/categories", getCategories);
-
-// responds with a single review object
-app.get("/api/reviews/:review_id", getReviewById);
-
-*/
 
 // error handling routes
 app.use(handlePsqlErrors);
