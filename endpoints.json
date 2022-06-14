@@ -51,5 +51,52 @@
         "comment_count": "String"
       }
     }
+  },
+  "PATCH /api/reviews/:review_id": {
+    "description": "accepts an object that patches review_id votes, returns updated article",
+    "exampleBody": { "inc_votes": 1 },
+    "exampleResponse": {
+      "review": {
+        "owner": "String",
+        "title": "String",
+        "review_id": "Number",
+        "designer": "String",
+        "review_img_url": "String",
+        "category": "String",
+        "created_at": "String",
+        "votes": 1,
+        "comment_count": "String"
+      }
+    }
+  },
+  "GET /api/reviews/:review_id/comments": {
+    "description": "responds with an array of comments for a given review_id",
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": "Number",
+          "votes": "Number",
+          "created_at": "String",
+          "author": "String",
+          "body": "String"
+        }
+      ]
+    }
+  },
+  "POST /api/reviews/:review_id/comments": {
+    "description": "accepts an object that posts a comment",
+    "exampleBody": { "username": "String", "body": "String" },
+    "exampleResponse": {
+      "comment": {
+        "comment_id": "Number",
+        "votes": "Number",
+        "created_at": "String",
+        "author": "String",
+        "body": "String"
+      }
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "deletes a comment by id, responds with status 204"
   }
 }
