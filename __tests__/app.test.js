@@ -384,7 +384,7 @@ describe("404 Error /invalid_url", () => {
       });
   });
 });
-describe.only("GET /api/users", () => {
+describe("GET /api/users", () => {
   test("status: 200, responds with an array of users", () => {
     return request(app)
       .get("/api/users")
@@ -396,5 +396,10 @@ describe.only("GET /api/users", () => {
           expect(user).toMatchObject({ username: expect.any(String) });
         });
       });
+  });
+});
+describe.only("GET /api/users/:username", () => {
+  test("", () => {
+    return request(app);
   });
 });
