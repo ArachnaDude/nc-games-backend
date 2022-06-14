@@ -9,6 +9,7 @@ const {
   postCommentByReviewId,
 } = require("./postCommentByReviewId.controllers");
 const { deleteCommentById } = require("./deleteCommentById.controllers");
+const { getEndpoints } = require("./getEndpoints.controllers");
 
 module.exports = {
   getCategories,
@@ -18,4 +19,5 @@ module.exports = {
   getCommentsByReviewId,
   postCommentByReviewId,
   deleteCommentById,
+  getEndpoints,
 };
