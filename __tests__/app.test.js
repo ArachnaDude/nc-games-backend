@@ -458,4 +458,13 @@ describe.only("PATCH /api/comments/:comment_id", () => {
         expect(result.body.message).toBe("comment not found");
       });
   });
+  test("status: 200, if missing correct key, there is no effect on votes", () => {
+    return request(app)
+      .patch("/api/comments/1")
+      .send({ inky_boats: 1 })
+      .expect(200)
+      .then((result) => {
+        expect(result.body.comment.votes).toBe(16);
+      });
+  });
 });
