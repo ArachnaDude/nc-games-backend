@@ -431,4 +431,31 @@ describe.only("PATCH /api/comments/:comment_id", () => {
         expect(result.body.comment.votes).toBe(17);
       });
   });
+  test("status: 400, responds with 'bad request' when passed invalid id", () => {
+    return request(app)
+      .patch("/api/comments/one")
+      .send({ inc_votes: 1 })
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
+      });
+  });
+  test("status: 404, responds with 'bad request', when passed bad vote type", () => {
+    return request(app)
+      .patch("/api/comments/1")
+      .send({ inc_votes: "one" })
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
+      });
+  });
+  test("status: 404, responds with not found when passed a valid unused comment_id", () => {
+    return request(app)
+      .patch("/api/comments/9999999")
+      .send({ inc_votes: 1 })
+      .expect(404)
+      .then((result) => {
+        expect(result.body.message).toBe("comment not found");
+      });
+  });
 });
