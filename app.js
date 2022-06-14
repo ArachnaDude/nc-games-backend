@@ -6,7 +6,7 @@ const express = require("express");
 const app = express();
 
 // controller imports
-const { handlePsqlErrors, handleCustomErrors } = require("./errors");
+const { handlePsqlErrors, handleCustomErrors, handle404 } = require("./errors");
 const apiRouter = require("./routes/api.router");
 
 // required to enable CORS for frontend use
@@ -19,6 +19,8 @@ app.use(express.json());
 app.use("/api", apiRouter);
 
 // error handling routes
+app.all("*", handle404);
+
 app.use(handlePsqlErrors);
 
 app.use(handleCustomErrors);
