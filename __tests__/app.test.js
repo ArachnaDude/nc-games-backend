@@ -399,7 +399,25 @@ describe("GET /api/users", () => {
   });
 });
 describe.only("GET /api/users/:username", () => {
-  test("", () => {
-    return request(app);
+  test("status: 200, returns a user objects", () => {
+    return request(app)
+      .get("/api/users/dav3rid")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.user).toMatchObject({
+          username: "dav3rid",
+          avatar_url:
+            "https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png",
+          name: "dave",
+        });
+      });
+  });
+  test("status: 404, returns 'not found' if passed an invalid username", () => {
+    return request(app)
+      .get("/api/users/barry_the_trout")
+      .expect(404)
+      .then((result) => {
+        expect(result.body.message).toBe("user not found");
+      });
   });
 });
