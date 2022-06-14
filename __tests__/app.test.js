@@ -346,4 +346,20 @@ describe.only("DELETE /api/comments/:comment_id", () => {
           });
       });
   });
+  test("status: 400, responds with 'bad request' when passed an invalid id", () => {
+    return request(app)
+      .delete("/api/comments/q")
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
+      });
+  });
+  test("status: 404, responds with 'not found' when passed an unused valid id", () => {
+    return request(app)
+      .delete("/api/comments/99999")
+      .expect(404)
+      .then((result) => {
+        expect(result.body.message).toBe("Not found");
+      });
+  });
 });
