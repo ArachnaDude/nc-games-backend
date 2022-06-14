@@ -398,7 +398,7 @@ describe("GET /api/users", () => {
       });
   });
 });
-describe.only("GET /api/users/:username", () => {
+describe("GET /api/users/:username", () => {
   test("status: 200, returns a user objects", () => {
     return request(app)
       .get("/api/users/dav3rid")
@@ -418,6 +418,17 @@ describe.only("GET /api/users/:username", () => {
       .expect(404)
       .then((result) => {
         expect(result.body.message).toBe("user not found");
+      });
+  });
+});
+describe.only("PATCH /api/comments/:comment_id", () => {
+  test("status: 200, accepts an object to update comment vote property, returning the update comment", () => {
+    return request(app)
+      .patch("/api/comments/1")
+      .send({ inc_votes: 1 })
+      .expect(200)
+      .then((result) => {
+        expect(result.body.comment.votes).toBe(17);
       });
   });
 });
