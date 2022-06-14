@@ -108,5 +108,18 @@
     "exampleResponse": {
       "user": { "username": "String", "avatar_url": "String", "name": "String" }
     }
+  },
+  "PATCH /api/comments/:comment_id": {
+    "description": "accepts an object that patches comment votes and returns the updated comment",
+    "exampleBody": { "inc_votes": "Number" },
+    "exampleResponse": {
+      "comment": {
+        "comment_id": "Number",
+        "votes": "Number",
+        "created_at": "String",
+        "author": "String",
+        "body": "String"
+      }
+    }
   }
 }
