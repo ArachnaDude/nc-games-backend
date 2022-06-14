@@ -374,3 +374,13 @@ describe("GET /api", () => {
       });
   });
 });
+describe("404 Error /invalid_url", () => {
+  test("status: 404, responds with 'not found' when passed an invalid route", () => {
+    return request(app)
+      .get("/api/not-a-route")
+      .expect(404)
+      .then((result) => {
+        expect(result.body.message).toBe("URL not found");
+      });
+  });
+});
