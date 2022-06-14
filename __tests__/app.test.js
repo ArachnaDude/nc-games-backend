@@ -1,6 +1,7 @@
 const db = require("../db/connection.js");
 const testData = require("../db/data/test-data/index.js");
 const seed = require("../db/seeds/seed.js");
+const endpoints = require("../endpoints.json");
 
 //supertest should always be brought in as "request"
 const request = require("supertest");
@@ -333,7 +334,7 @@ describe("POST /api/reviews/:review_id/comments", () => {
       });
   });
 });
-describe.only("DELETE /api/comments/:comment_id", () => {
+describe("DELETE /api/comments/:comment_id", () => {
   test("status: 204, deletes comment, and returns nothing", () => {
     return request(app)
       .delete("/api/comments/1")
@@ -360,6 +361,16 @@ describe.only("DELETE /api/comments/:comment_id", () => {
       .expect(404)
       .then((result) => {
         expect(result.body.message).toBe("Not found");
+      });
+  });
+});
+describe("GET /api", () => {
+  test("status: 200, responds with json describing all endpoints ", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((result) => {
+        expect(result.body).toEqual(endpoints);
       });
   });
 });
