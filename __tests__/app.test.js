@@ -384,3 +384,17 @@ describe("404 Error /invalid_url", () => {
       });
   });
 });
+describe.only("GET /api/users", () => {
+  test("status: 200, responds with an array of users", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.users).toBeInstanceOf(Array);
+        expect(result.body.users).toHaveLength(4);
+        result.body.users.forEach((user) => {
+          expect(user).toMatchObject({ username: expect.any(String) });
+        });
+      });
+  });
+});
