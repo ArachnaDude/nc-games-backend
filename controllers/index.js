@@ -12,6 +12,7 @@ const { deleteCommentById } = require("./deleteCommentById.controllers");
 const { getEndpoints } = require("./getEndpoints.controllers");
 const { getUsers } = require("./getUsers.controllers");
 const { getUserByUsername } = require("./getUserByUsername.controllers");
+const { patchCommentById } = require("./patchCommentById.controllers");
 
 module.exports = {
   getCategories,
@@ -24,4 +25,5 @@ module.exports = {
   getEndpoints,
   getUsers,
   getUserByUsername,
+  patchCommentById,
 };
