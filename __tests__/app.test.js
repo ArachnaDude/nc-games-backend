@@ -313,4 +313,37 @@ describe("POST /api/reviews/:review_id/comments", () => {
         expect(result.body.message).toBe("Not found");
       });
   });
+  test("status: 201, ignores extra properties on object", () => {
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send({
+        username: "dav3rid",
+        body: "this comment will work",
+        message: "this comment will be ignored",
+      })
+      .expect(201)
+      .then((result) => {
+        expect(result.body.comment).toMatchObject({
+          comment_id: expect.any(Number),
+          votes: 0,
+          created_at: expect.any(String),
+          author: "dav3rid",
+          body: "this comment will work",
+        });
+      });
+  });
+});
+describe.only("DELETE /api/comments/:comment_id", () => {
+  test("status: 204, deletes comment, and returns nothing", () => {
+    return request(app)
+      .delete("/api/comments/1")
+      .expect(204)
+      .then(() => {
+        return db
+          .query(`SELECT * FROM comments WHERE comment_id = 1;`)
+          .then((result) => {
+            expect(result.rowCount).toBe(0);
+          });
+      });
+  });
 });
