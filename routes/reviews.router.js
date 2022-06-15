@@ -5,12 +5,13 @@ const {
   getReviews,
   getCommentsByReviewId,
   postCommentByReviewId,
+  postReview,
 } = require("../controllers");
 const { handle405 } = require("../errors");
 const reviewsRouter = express.Router();
 
 // controlls all methods assigned to /api/reviews
-reviewsRouter.route("/").get(getReviews).all(handle405);
+reviewsRouter.route("/").get(getReviews).post(postReview).all(handle405);
 
 // controls all methods assigned to /api/reviews/:review_id
 reviewsRouter
