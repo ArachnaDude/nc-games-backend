@@ -13,6 +13,7 @@ const { getEndpoints } = require("./getEndpoints.controllers");
 const { getUsers } = require("./getUsers.controllers");
 const { getUserByUsername } = require("./getUserByUsername.controllers");
 const { patchCommentById } = require("./patchCommentById.controllers");
+const { postReview } = require("./postReview.controllers");
 
 module.exports = {
   getCategories,
@@ -26,4 +27,5 @@ module.exports = {
   getUsers,
   getUserByUsername,
   patchCommentById,
+  postReview,
 };
