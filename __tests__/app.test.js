@@ -421,7 +421,7 @@ describe("GET /api/users/:username", () => {
       });
   });
 });
-describe.only("PATCH /api/comments/:comment_id", () => {
+describe("PATCH /api/comments/:comment_id", () => {
   test("status: 200, accepts an object to update comment vote property, returning the update comment", () => {
     return request(app)
       .patch("/api/comments/1")
@@ -465,6 +465,33 @@ describe.only("PATCH /api/comments/:comment_id", () => {
       .expect(200)
       .then((result) => {
         expect(result.body.comment.votes).toBe(16);
+      });
+  });
+});
+describe.only("POST /api/reviews", () => {
+  test("status: 201, accepts a body posting a review, responds with the posted reveiw.", () => {
+    return request(app)
+      .post("/api/reviews")
+      .send({
+        owner: "dav3rid",
+        title: "snakes and ladders",
+        review_body: "roll the dice, and make it to the end",
+        designer: "Sir Humphrey Boardgame",
+        category: "children's games",
+      })
+      .expect(201)
+      .then((result) => {
+        expect(result.body.review).toMatchObject({
+          review_id: 14,
+          votes: 0,
+          created_at: expect.any(String),
+          comment_count: 0,
+          owner: "dav3rid",
+          title: "snakes and ladders",
+          review_body: "roll the dice, and make it to the end",
+          designer: "Sir Humphrey Boardgame",
+          category: "children's games",
+        });
       });
   });
 });
