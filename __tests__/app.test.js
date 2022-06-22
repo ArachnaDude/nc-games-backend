@@ -468,7 +468,7 @@ describe("PATCH /api/comments/:comment_id", () => {
       });
   });
 });
-describe.only("POST /api/reviews", () => {
+describe("POST /api/reviews", () => {
   test("status: 201, accepts a body posting a review, responds with the posted reveiw.", () => {
     return request(app)
       .post("/api/reviews")
@@ -492,6 +492,70 @@ describe.only("POST /api/reviews", () => {
           designer: "Sir Humphrey Boardgame",
           category: "children's games",
         });
+      });
+  });
+  test("status: 400, returns 'bad request' if missing a required key", () => {
+    return request(app)
+      .post("/api/reviews")
+      .send({
+        owner: "dav3rid",
+        title: "snakes and ladders",
+        designer: "Sir Humphrey Boardgame",
+      })
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
+      });
+  });
+  test("status: 201, returns 'created' and ignores additional keys", () => {
+    return request(app)
+      .post("/api/reviews")
+      .send({
+        owner: "dav3rid",
+        title: "Gloom",
+        review_body: "Tell horrible stories",
+        designer: "Keith Baker",
+        category: "children's games",
+        super_category: "Giga games",
+        ignorable_key: "this does nothing",
+      })
+      .expect(201)
+      .then((result) => {
+        expect(result.body.review).toMatchObject({
+          review_id: 14,
+          votes: 0,
+          created_at: expect.any(String),
+          comment_count: 0,
+          owner: "dav3rid",
+          title: "Gloom",
+          review_body: "Tell horrible stories",
+          designer: "Keith Baker",
+          category: "children's games",
+        });
+      });
+  });
+  test("status: 405, returns 'method not allowed' if sent a bad method", () => {
+    return request(app)
+      .patch("/api/reviews")
+      .send({ dummy_key: "dummy value" })
+      .expect(405)
+      .then((result) => {
+        expect(result.body.message).toBe("Method not allowed");
+      });
+  });
+});
+describe.only("POST /api/categories", () => {
+  test("status: 201, responds with 'created' when passed a request body", () => {
+    return request(app)
+      .post("/api/categories")
+      .send({ slug: "card game", description: "games involving cards" })
+      .expect(201)
+      .then((result) => {
+        expect(result.body.category).toMatchObject({
+          slug: "card game",
+          description: "games involving cards",
+        });
+        return request(app);
       });
   });
 });
