@@ -555,7 +555,6 @@ describe.only("POST /api/categories", () => {
           slug: "card game",
           description: "games involving cards",
         });
-        return request(app);
       });
   });
 });
