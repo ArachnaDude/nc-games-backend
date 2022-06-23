@@ -121,5 +121,38 @@
         "body": "String"
       }
     }
+  },
+  "POST /api/reviews": {
+    "description": "accepts a body that adds a review to the database",
+    "exampleBody": {
+      "owner": "String",
+      "title": "String",
+      "review_body": "String",
+      "designer": "String",
+      "category": "String"
+    },
+    "exampleResponse": {
+      "review": {
+        "owner": "String",
+        "title": "String",
+        "review_body": "String",
+        "designer": "String",
+        "category": "String",
+        "review_id": "Number",
+        "votes": "Number",
+        "created_at": "String",
+        "comment_count": "Number"
+      }
+    }
+  },
+  "POST /api/categories": {
+    "description": "accepts a body that adds a category to the database",
+    "exampleBody": { "slug": "String", "description": "String" },
+    "exampleResponse": {
+      "category": { "slug": "String", "description": "String" }
+    }
+  },
+  "DELETE /api/reviews/:review_id": {
+    "description": "deletes a review by id, responds with status 204"
   }
 }
