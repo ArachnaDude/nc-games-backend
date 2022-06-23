@@ -601,3 +601,17 @@ describe("POST /api/categories", () => {
       });
   });
 });
+describe.only("DELETE /api/reviews/:review_id", () => {
+  test("status: 204, deletes a specified review, returns nothing", () => {
+    return request(app)
+      .delete("/api/reviews/4")
+      .expect(204)
+      .then(() => {
+        return db
+          .query(`SELECT * FROM reviews WHERE review_id = 4;`)
+          .then((result) => {
+            expect(result.rowCount).toBe(0);
+          });
+      });
+  });
+});
