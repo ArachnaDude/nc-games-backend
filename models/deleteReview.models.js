@@ -5,5 +5,10 @@ exports.deleteReview = async (review_id) => {
     `DELETE FROM reviews WHERE review_id = $1 RETURNING *;`,
     [review_id]
   );
-  console.log(deletedReview.rows);
+  if (!deletedReview.rowCount) {
+    return Promise.reject({
+      status: 404,
+      message: "Not found",
+    });
+  }
 };
