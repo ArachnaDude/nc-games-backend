@@ -6,6 +6,7 @@ const {
   getCommentsByReviewId,
   postCommentByReviewId,
   postReview,
+  deleteReviewById,
 } = require("../controllers");
 const { handle405 } = require("../errors");
 const reviewsRouter = express.Router();
@@ -18,6 +19,7 @@ reviewsRouter
   .route("/:review_id")
   .get(getReviewById)
   .patch(patchReviewById)
+  .delete(deleteReviewById)
   .all(handle405);
 
 // controlls all methods assigned to /api/reviews/:review_id/comments
