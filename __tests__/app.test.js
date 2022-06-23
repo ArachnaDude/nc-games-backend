@@ -601,7 +601,7 @@ describe("POST /api/categories", () => {
       });
   });
 });
-describe.only("DELETE /api/reviews/:review_id", () => {
+describe("DELETE /api/reviews/:review_id", () => {
   test("status: 204, deletes a specified review, returns nothing", () => {
     return request(app)
       .delete("/api/reviews/4")
