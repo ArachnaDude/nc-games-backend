@@ -544,7 +544,7 @@ describe("POST /api/reviews", () => {
       });
   });
 });
-describe.only("POST /api/categories", () => {
+describe("POST /api/categories", () => {
   test("status: 201, responds with 'created' when passed a request body", () => {
     return request(app)
       .post("/api/categories")
@@ -555,6 +555,49 @@ describe.only("POST /api/categories", () => {
           slug: "card game",
           description: "games involving cards",
         });
+      });
+  });
+  test("status: 201, responds with 'created' if missing description key", () => {
+    return request(app)
+      .post("/api/categories")
+      .send({ slug: "card game" })
+      .expect(201)
+      .then((result) => {
+        expect(result.body.category).toMatchObject({
+          slug: "card game",
+          description: "no description available",
+        });
+      });
+  });
+  test("status: 400, responds with bad request if passed an existing slug", () => {
+    return request(app)
+      .post("/api/categories")
+      .send({
+        slug: "euro game",
+        description: "Abstact games that involve little luck",
+      })
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
+      });
+  });
+
+  test("status: 400, responds with 'bad request' if missing slug key", () => {
+    return request(app)
+      .post("/api/categories")
+      .send({ description: "prepare for null values" })
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
+      });
+  });
+  test("status: 405, responds with method not allowed if passed a bad method", () => {
+    return request(app)
+      .patch("/api/categories")
+      .send({ key: "property" })
+      .expect(405)
+      .then((result) => {
+        expect(result.body.message).toBe("Method not allowed");
       });
   });
 });
