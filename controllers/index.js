@@ -15,6 +15,7 @@ const { getUserByUsername } = require("./getUserByUsername.controllers");
 const { patchCommentById } = require("./patchCommentById.controllers");
 const { postReview } = require("./postReview.controllers");
 const { postCategory } = require("./postCategory.controllers");
+const { deleteReviewById } = require("./deleteReviewById.controllers");
 
 module.exports = {
   getCategories,
@@ -30,4 +31,5 @@ module.exports = {
   patchCommentById,
   postReview,
   postCategory,
+  deleteReviewById,
 };
