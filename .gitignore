@@ -1,7 +1,2 @@
 node_modules
 .env.*
-test.sql
-log.txt
-error-handling.md
-hosting.md
-important.md
