@@ -614,4 +614,20 @@ describe.only("DELETE /api/reviews/:review_id", () => {
           });
       });
   });
+  test("status: 400, responds with 'bad request' if passed an invalid review_id", () => {
+    return request(app)
+      .delete("/api/reviews/seventeen")
+      .expect(400)
+      .then((result) => {
+        expect(result.body.message).toBe("Bad request");
+      });
+  });
+  test("status: 404, responds with not found if passed a valid but unused reivew_id", () => {
+    return request(app)
+      .delete("/api/reviews/9999999")
+      .expect(404)
+      .then((result) => {
+        expect(result.body.message).toBe("Not found");
+      });
+  });
 });
