@@ -9,7 +9,7 @@
     "seed": "node ./db/seeds/run-seed.js",
     "test": "jest",
     "practice": "psql -f ./test.sql > log.txt",
-    "seed:prod": "NODE_ENV=production npm run seed"
+    "seed-prod": "NODE_ENV=production npm run seed"
   },
   "jest": {
     "setupFilesAfterEnv": [
