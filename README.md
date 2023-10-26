@@ -9,7 +9,7 @@ This is a REST API backend service for "NC House of Games", a community-based ga
 ### Backend:
 
 - Repo: https://github.com/ArachnaDude/nc-games-backend
-- Live Version: https://matts-nc-games-backend.herokuapp.com/api
+- Live Version: https://nc-games-backend-ct7t.onrender.com/api
 
 ### Frontend:
 
